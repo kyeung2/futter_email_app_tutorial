@@ -9,20 +9,26 @@ part 'Message.g.dart';
 class Message {
   final String subject;
   final String body;
+
   Message(this.subject, this.body);
 
-  factory Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      _$MessageFromJson(json);
 
-  static Future<List<Message>> browse() async {
+  static Future<List<Message>> browse({status = "important"}) async {
     // final content = await rootBundle.loadString('data/messages.json');
-    http.Response response =
-    await http.get('http://www.mocky.io/v2/5cd413ce350000df2d7a52e5');
 
-    await Future.delayed(Duration(seconds: 3));
+    String url = status == 'important'
+        ? "http://www.mocky.io/v2/5ce3e6773100007800742a1b"
+        : 'http://www.mocky.io/v2/5cd413ce350000df2d7a52e5';
+
+    http.Response response = await http.get(url);
+
+    await Future.delayed(Duration(seconds: 1));
 
     List collection = json.decode(response.body);
     List<Message> _messages =
-    collection.map((json) => Message.fromJson(json)).toList();
+        collection.map((json) => Message.fromJson(json)).toList();
 
     return _messages;
   }
