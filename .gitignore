@@ -13,3 +13,7 @@ pubspec.lock
 doc/api/
 .idea/
 .idea/
+ios/
+android/
+*.log
+*.iml

@@ -1,9 +1,10 @@
 import 'package:emailapp/ComposeButton.dart';
 import 'package:emailapp/Message.dart';
-import 'package:emailapp/MessageCompose.dart';
 import 'package:emailapp/MessageDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
 
 class MessageList extends StatefulWidget {
   final String title;
@@ -38,9 +39,8 @@ class _MessageListState extends State<MessageList> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () async {
-              var _messages = await Message.browse();
               setState(() {
-                messages = _messages;
+                future = Message.browse();
               });
             },
           )
@@ -125,32 +125,75 @@ class _MessageListState extends State<MessageList> {
               if (snapshot.hasError) {
                 return Text("There was an error: ${snapshot.error}");
               }
-              final messages = snapshot.data;
+              List<Message> messages = snapshot.data;
               return ListView.separated(
                 itemCount: messages.length,
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (BuildContext context, int index) {
                   Message message = messages[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      child: Text('KY'),
-                      backgroundColor: Color.fromARGB(100, 255, 0, 0),
+                  return Slidable(
+                    key: ObjectKey(message),
+                    actionPane: SlidableDrawerActionPane(),
+                    actionExtentRatio: 0.25,
+                    dismissal: SlidableDismissal(
+                      child: SlidableDrawerDismissal(),
                     ),
-                    title: Text(message.subject),
-                    subtitle: Text(
-                      message.body,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    actions: <Widget>[
+                      IconSlideAction(
+                        caption: 'Archive',
+                        color: Colors.blue,
+                        icon: Icons.archive,
+                        onTap: () => {},
+                      ),
+                      IconSlideAction(
+                        caption: 'Share',
+                        color: Colors.indigo,
+                        icon: Icons.share,
+                        onTap: () => {},
+                      ),
+                    ],
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: 'More',
+                        color: Colors.black45,
+                        icon: Icons.more_horiz,
+                        onTap: () => {},
+                      ),
+                      IconSlideAction(
+                        caption: 'Delete',
+                        color: Colors.red,
+                        icon: Icons.delete,
+                        onTap: () => {
+                          setState((){
+                            messages.removeAt(index);
+                          })
+                        },
+                      ),
+                    ],
+                    child:   ListTile(
+                      leading: CircleAvatar(
+                        child: Text('KY'),
+                        backgroundColor: Color.fromARGB(100, 255, 0, 0),
+                      ),
+                      title: Text(message.subject),
+                      subtitle: Text(
+                        message.body,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      isThreeLine: true,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => MessageDetail(
+                                    message.subject, message.body)));
+                      },
                     ),
-                    isThreeLine: true,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => MessageDetail(
-                                  message.subject, message.body)));
-                    },
+
                   );
+
+
                 },
               );
           }
@@ -160,3 +203,4 @@ class _MessageListState extends State<MessageList> {
     );
   }
 }
+
