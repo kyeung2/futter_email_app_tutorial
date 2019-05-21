@@ -1,42 +1,23 @@
-import 'package:emailapp/AppDrawer.dart';
-import 'package:emailapp/MessageList.dart';
 import 'package:flutter/material.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () async {
+    return Scaffold(
+      body: Text("Something"),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text("Inbox"),
+            icon: Icon(Icons.mail)
+          )
 
-
-              },
-            )
-          ],
-          bottom: TabBar(
-            tabs: <Widget>[
-              Tab(
-                text: "Important",
-              ),
-              Tab(
-                text: "Other",
-              )
-            ],
-          ),
-        ),
-        drawer: AppDrawer(),
-        body: TabBarView(
-          children: <Widget>[
-            MessageList(status: "important"),
-            MessageList(status: "other"),
-          ],
-        ),
+        ],
       ),
     );
   }
