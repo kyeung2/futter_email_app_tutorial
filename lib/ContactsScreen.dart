@@ -1,5 +1,6 @@
 import 'package:emailapp/AppDrawer.dart';
 import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactsScreen extends StatelessWidget {
@@ -31,18 +32,31 @@ class ContactsScreen extends StatelessWidget {
             ],
           ),
           drawer: AppDrawer(),
-          body: StreamBuilder<List<String>>(
+          body: StreamBuilder<List<Contact>>(
             stream: manager.contactListNow,
-            builder: (context, snapshot) {
-              List<String> contacts = snapshot.data;
-              return ListView.separated(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(contacts[index]),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: contacts.length);
+            builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
+              switch (snapshot.connectionState) {
+                // stats of data
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                case ConnectionState.active:
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case ConnectionState.done:
+                  List<Contact> contacts = snapshot.data;
+                  return ListView.separated(
+                      itemBuilder: (context, index) {
+                        Contact _contact = contacts[index];
+                        return ListTile(
+                          title: Text(_contact.name),
+                          subtitle: Text(_contact.email),
+                          leading: CircleAvatar(),
+                        );
+                      },
+                      separatorBuilder: (context, index) => Divider(),
+                      itemCount: contacts.length);
+              }
             },
           )),
       length: 2,
