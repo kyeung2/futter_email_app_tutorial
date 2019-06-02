@@ -1,5 +1,7 @@
 import 'package:emailapp/AppDrawer.dart';
+import 'package:emailapp/ContactListBuilder.dart';
 import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/ContactSearchDelegate.dart';
 import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
@@ -26,39 +28,35 @@ class ContactsScreen extends StatelessWidget {
                 ),
                 backgroundColor: Colors.red,
               ),
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                      context: context,
+                      delegate: ContactSearchDelegate(manager: manager));
+                },
+              ),
               Padding(
                 padding: EdgeInsets.only(right: 16),
               )
             ],
           ),
           drawer: AppDrawer(),
-          body: StreamBuilder<List<Contact>>(
-            stream: manager.contactListNow,
-            builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
-              switch (snapshot.connectionState) {
-                // stats of data
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                case ConnectionState.active:
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                case ConnectionState.done:
-                  List<Contact> contacts = snapshot.data;
-                  return ListView.separated(
-                      itemBuilder: (context, index) {
-                        Contact _contact = contacts[index];
-                        return ListTile(
-                          title: Text(_contact.name),
-                          subtitle: Text(_contact.email),
-                          leading: CircleAvatar(),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Divider(),
-                      itemCount: contacts.length);
-              }
-            },
-          )),
+          body: ContactListBuilder(
+              stream: manager.contactListView,
+              builder: (context, contacts) {
+                return ListView.separated(
+                    itemBuilder: (context, index) {
+                      Contact _contact = contacts[index];
+                      return ListTile(
+                        title: Text(_contact.name),
+                        subtitle: Text(_contact.email),
+                        leading: CircleAvatar(),
+                      );
+                    },
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: contacts.length);
+              })),
       length: 2,
     );
   }
