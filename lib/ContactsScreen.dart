@@ -2,14 +2,17 @@ import 'package:emailapp/AppDrawer.dart';
 import 'package:emailapp/ContactListBuilder.dart';
 import 'package:emailapp/ContactManager.dart';
 import 'package:emailapp/ContactSearchDelegate.dart';
+import 'package:emailapp/Provider.dart';
 import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactsScreen extends StatelessWidget {
-  ContactManager manager = ContactManager();
-
   @override
   Widget build(BuildContext context) {
+
+    // accessing data from InheritedWidget
+    ContactManager manager = Provider.of(context);
+
     return DefaultTabController(
       child: Scaffold(
           appBar: AppBar(
