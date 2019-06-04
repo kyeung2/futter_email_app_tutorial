@@ -18,9 +18,3 @@ class ContactService {
     return _contacts.toList();
   }
 }
-
-// > dart lib/service/ContactService.dart
-//void main() async {
-//  List result = await ContactService.browse();
-//  print(result);
-//}
