@@ -11,7 +11,7 @@ class ContactListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ContactManager manager = Provider.of(context);
+    ContactManager manager = Provider.of<ContactManager>(context);
 
     // he forgot to do this in the episode, will be interesting to see how he resolves this.
     bool hasQuery = query != null && query.isNotEmpty;

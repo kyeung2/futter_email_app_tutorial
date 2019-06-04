@@ -18,8 +18,7 @@ class ContactsScreen extends StatelessWidget {
                 icon: Icon(Icons.search),
                 onPressed: () {
                   showSearch(
-                      context: context,
-                      delegate: ContactSearchDelegate());
+                      context: context, delegate: ContactSearchDelegate());
                 },
               ),
               Padding(
@@ -28,8 +27,7 @@ class ContactsScreen extends StatelessWidget {
             ],
           ),
           drawer: AppDrawer(),
-          body: ContactListBuilder(
-              builder: (context, contacts) {
+          body: ContactListBuilder(builder: (context, contacts) {
             return ListView.separated(
                 itemBuilder: (context, index) {
                   Contact _contact = contacts[index];

@@ -33,6 +33,8 @@ class ContactSearchDelegate extends SearchDelegate {
       );
     }
 
+
+
     return ContactListBuilder(
         query: query,
         builder: (context, contacts) {
