@@ -13,6 +13,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    print("App");
     return DefaultTabController(
       child: Scaffold(
         body: [
