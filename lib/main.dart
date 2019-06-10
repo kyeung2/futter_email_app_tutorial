@@ -1,5 +1,5 @@
 import 'package:emailapp/App.dart';
-import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/Overseer.dart';
 import 'package:emailapp/Provider.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +9,8 @@ class EmailApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider<ContactManager>(
-      data: ContactManager(),
+    return Provider(
+      data: Overseer(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme:
