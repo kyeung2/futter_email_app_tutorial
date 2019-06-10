@@ -33,7 +33,7 @@ class _AppState extends State<App> {
           currentIndex: _selectedIndex,
         ),
       ),
-      length: 2,
+      length: 3,
     );
   }
 

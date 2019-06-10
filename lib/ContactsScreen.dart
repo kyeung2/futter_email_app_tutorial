@@ -1,13 +1,17 @@
 import 'package:emailapp/AppDrawer.dart';
 import 'package:emailapp/ContactCounter.dart';
 import 'package:emailapp/ContactListBuilder.dart';
+import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/Overseer.dart';
 import 'package:emailapp/ContactSearchDelegate.dart';
+import 'package:emailapp/Provider.dart';
 import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
     return DefaultTabController(
       child: Scaffold(
           appBar: AppBar(
@@ -27,19 +31,21 @@ class ContactsScreen extends StatelessWidget {
             ],
           ),
           drawer: AppDrawer(),
-          body: ContactListBuilder(builder: (context, contacts) {
-            return ListView.separated(
-                itemBuilder: (context, index) {
-                  Contact _contact = contacts[index];
-                  return ListTile(
-                    title: Text(_contact.name),
-                    subtitle: Text(_contact.email),
-                    leading: CircleAvatar(),
-                  );
-                },
-                separatorBuilder: (context, index) => Divider(),
-                itemCount: contacts.length);
-          })),
+          body: ContactListBuilder(
+              stream: manager.contactListView,
+              builder: (context, contacts) {
+                return ListView.separated(
+                    itemBuilder: (context, index) {
+                      Contact _contact = contacts[index];
+                      return ListTile(
+                        title: Text(_contact.name),
+                        subtitle: Text(_contact.email),
+                        leading: CircleAvatar(),
+                      );
+                    },
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: contacts.length);
+              })),
       length: 2,
     );
   }

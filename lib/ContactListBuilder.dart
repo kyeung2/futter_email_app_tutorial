@@ -1,24 +1,18 @@
-import 'package:emailapp/ContactManager.dart';
-import 'package:emailapp/Provider.dart';
+
 import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactListBuilder extends StatelessWidget {
-  final String query;
   final Function builder;
+  final Stream stream;
 
-  const ContactListBuilder({this.query, this.builder});
+  const ContactListBuilder({this.builder, this.stream});
 
   @override
   Widget build(BuildContext context) {
-    ContactManager manager = Provider.of<ContactManager>(context);
-
     // he forgot to do this in the episode, will be interesting to see how he resolves this.
-    bool hasQuery = query != null && query.isNotEmpty;
     return StreamBuilder<List<Contact>>(
-      stream: hasQuery
-          ? manager.filteredCollection(query: query)
-          : manager.contactListView,
+      stream: stream,
       builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
         switch (snapshot.connectionState) {
           // stats of data

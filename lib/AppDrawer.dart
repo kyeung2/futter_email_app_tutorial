@@ -39,6 +39,9 @@ class AppDrawer extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               backgroundColor: Colors.blue,
+              onDeleted: () {
+                print("what is this?");
+              },
             ),
           ),
           ListTile(
