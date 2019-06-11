@@ -8,7 +8,7 @@ class ContactCounter extends StatelessWidget {
     ContactManager manager = Provider.of(context).fetch(ContactManager);
     return Chip(
       label: StreamBuilder<int>(
-        stream: manager.contactCounter,
+        stream: manager.count$,
         builder: (context, snapshot) {
           return Text(
             // ?? means "if null"
