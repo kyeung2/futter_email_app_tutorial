@@ -32,7 +32,7 @@ class ContactsScreen extends StatelessWidget {
           ),
           drawer: AppDrawer(),
           body: ContactListBuilder(
-              stream: manager.contactListView,
+              stream: manager.browse$(),
               builder: (context, contacts) {
                 return ListView.separated(
                     itemBuilder: (context, index) {
