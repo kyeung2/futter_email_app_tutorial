@@ -1,4 +1,4 @@
-
+import 'package:emailapp/Observer.dart';
 import 'package:emailapp/model/Contact.dart';
 import 'package:flutter/material.dart';
 
@@ -11,22 +11,11 @@ class ContactListBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // he forgot to do this in the episode, will be interesting to see how he resolves this.
-    return StreamBuilder<List<Contact>>(
+    return Observer<List<Contact>>(
       stream: stream,
-      builder: (context, AsyncSnapshot<List<Contact>> snapshot) {
-        switch (snapshot.connectionState) {
-          // stats of data
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-          case ConnectionState.active:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          case ConnectionState.done:
-            List<Contact> contacts = snapshot.data;
-            return builder(context, contacts);
-        }
-      },
+      onSuccess: (BuildContext context, List<Contact> data) =>
+          builder(context, data),
+      onWaiting: (context) => LinearProgressIndicator(),
     );
   }
 }
