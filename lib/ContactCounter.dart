@@ -1,4 +1,5 @@
 import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/Observer.dart';
 import 'package:emailapp/Provider.dart';
 import 'package:flutter/material.dart';
 
@@ -7,15 +8,14 @@ class ContactCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     ContactManager manager = Provider.of(context).fetch(ContactManager);
     return Chip(
-      label: StreamBuilder<int>(
+      label: Observer<int>(
         stream: manager.count$,
-        builder: (context, snapshot) {
-          return Text(
+        onSuccess: (BuildContext context, int data)
+          => Text(
             // ?? means "if null"
-            (snapshot.data ?? 0).toString(),
+            (data ?? 0).toString(),
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          );
-        },
+          )
       ),
       backgroundColor: Colors.red,
     );
