@@ -37,8 +37,11 @@ class ContactSearchDelegate extends SearchDelegate {
         child: Text("Type at least 3 letters to search"),
       );
     }
+    
+    manager.inFilter.add(query);
+
     return ContactListBuilder(
-      stream: manager.browse$(query: query),
+      stream: manager.browse$,
         builder: (context, contacts) {
           return ListView.separated(
               itemBuilder: (context, index) {
