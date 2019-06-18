@@ -59,6 +59,22 @@ class ContactSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
-  }
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
+    manager.inFilter.add(query);
+
+    return ContactListBuilder(
+        stream: manager.browse$,
+        builder: (context, contacts) {
+          return ListView.separated(
+              itemBuilder: (context, index) {
+                Contact _contact = contacts[index];
+                return ListTile(
+                  title: Text(_contact.name),
+                  subtitle: Text(_contact.email),
+                  leading: CircleAvatar(),
+                );
+              },
+              separatorBuilder: (context, index) => Divider(),
+              itemCount: contacts.length);
+        });  }
 }
