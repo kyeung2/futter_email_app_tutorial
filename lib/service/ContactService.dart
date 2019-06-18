@@ -3,19 +3,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ContactService {
-  static String url = "https://jsonplaceholder.typicode.com/users";
+  static String _url = "http://fip.zaiste.net/contacts";
 
   static Future<List<Contact>> browse({filter}) async {
-    http.Response response = await http.get(url);
+    http.Response response = await http.get("$_url?q=$filter");
     String content = response.body;
     await Future.delayed(Duration(seconds: 2));
     List collection = json.decode(content);
     Iterable<Contact> _contacts = collection.map((_) => Contact.fromJson(_));
 
-    if (filter != null && filter.isNotEmpty) {
-      _contacts = _contacts.where((contact) =>
-          contact.name.toLowerCase().contains(filter.toString().toLowerCase()));
-    }
     return _contacts.toList();
   }
 }
