@@ -37,12 +37,17 @@ class ContactManager {
     _filterSubject
         // back pressure mechanism to slow down the number of events going to the ContactService.
         .debounceTime(Duration(milliseconds: 500))
-        .listen((filter) async {
+        // ensures that the ordering of the operations are applied and returned in the correct order
+        // async* == stream generator
+        .switchMap((filter) async* {
+      yield await ContactService.browse(filter: filter);
+    }).listen((contacts) async {
       // react to the stream/sink but initiating a browse then adding to another
       // stream _collectionSubject
-      var contacts = await ContactService.browse(filter: filter);
       _collectionSubject.add(contacts);
     });
+
+    // [1 2,4]
 
     // listing to the first stream. Put the length value into second stream via the StreamController
     _collectionSubject.listen((list) => _countSubject.add(list.length));
