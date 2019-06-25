@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:core';
 
-import 'package:emailapp/Observer.dart';
 import 'package:emailapp/model/Contact.dart';
 import 'package:emailapp/service/ContactService.dart';
 import 'package:rxdart/rxdart.dart';

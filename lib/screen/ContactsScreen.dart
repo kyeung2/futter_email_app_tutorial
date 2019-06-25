@@ -1,7 +1,7 @@
 import 'package:emailapp/AppDrawer.dart';
 import 'package:emailapp/ContactCounter.dart';
 import 'package:emailapp/ContactListBuilder.dart';
-import 'package:emailapp/ContactManager.dart';
+import 'package:emailapp/manager/ContactManager.dart';
 import 'package:emailapp/ContactSearchDelegate.dart';
 import 'package:emailapp/Provider.dart';
 import 'package:emailapp/model/Contact.dart';
