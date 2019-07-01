@@ -49,7 +49,7 @@ class _MessageComposeState extends State<MessageCompose> {
                       decoration: InputDecoration(
                           labelText: 'TO(Error)',
                           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                        errorText: "This field is invalid"
+                        errorText: error
                       ),
                     );
                   },
