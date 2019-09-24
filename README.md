@@ -20,7 +20,12 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Issues:
 
-1: deleted `ios/` or `android/` folders
+1: check local development environment is setup
+```
+flutter doctor
+
+
+2: if deleted `ios/` or `android/` folders
 ```
 flutter create .
 
