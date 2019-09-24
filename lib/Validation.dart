@@ -20,7 +20,7 @@ mixin Validation {
     } else if (len < 4) {
       sink.addError("'SUBJECT' must be longer than 4 characters");
     } else {
-      sink.add(value);
+      sink.add(value);// we are not displaying this so we can pass anything. just information for the listener or stream builder that everything is ok
     }
   });
 }

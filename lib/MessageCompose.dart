@@ -25,7 +25,7 @@ class _MessageComposeState extends State<MessageCompose> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ListTile(
-                title: StreamBuilder(
+                title: StreamBuilder<String>(
                   stream: manager.email$,
                   builder: (context, snapshot) {
                     return TextField(
@@ -49,7 +49,7 @@ class _MessageComposeState extends State<MessageCompose> {
                     decoration: InputDecoration(
                       labelText: 'SUBJECT',
                       labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      errorText: snapshot.error,
+                      errorText: snapshot.error,// magical: if error is null, the error is not displayed
                     ),
                   );
                 },
