@@ -23,7 +23,7 @@ samples, guidance on mobile development, and a full API reference.
 1: check local development environment is setup
 ```
 flutter doctor
-
+```
 
 2: if deleted `ios/` or `android/` folders
 ```
