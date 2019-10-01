@@ -1,17 +1,11 @@
 import 'package:emailapp/Message.dart';
-import 'package:emailapp/Observer.dart';
 import 'package:emailapp/Provider.dart';
+import 'package:emailapp/RxTextField.dart';
 import 'package:emailapp/manager/MessageFormManager.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:rxdart/rxdart.dart';
 
-class MessageCompose extends StatefulWidget {
-  @override
-  _MessageComposeState createState() => _MessageComposeState();
-}
+class MessageCompose extends StatelessWidget {
 
-class _MessageComposeState extends State<MessageCompose> {
   @override
   Widget build(BuildContext context) {
     MessageFormManager manager = Provider.of(context).fetch(MessageFormManager);
@@ -25,39 +19,26 @@ class _MessageComposeState extends State<MessageCompose> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ListTile(
-                title: StreamBuilder<String>(
-                  stream: manager.email$,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      // point free programming
-                      onChanged: manager.inEmail.add,
+                  title: RxTextField(
+                      subscribe: manager.email$,
+                      dispatch: manager.setEmail,
                       decoration: InputDecoration(
                         labelText: 'TO',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                        errorText: snapshot.error,
-                      ),
-                    );
-                  },
-                ),
-              ),
+                      ))),
               ListTile(
-                  title: StreamBuilder<Object>(
-                stream: manager.subject$,
-                builder: (context, snapshot) {
-                  return TextField(
-                    onChanged: manager.inSubject.add,
-                    decoration: InputDecoration(
-                      labelText: 'SUBJECT',
-                      labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      errorText: snapshot.error,// magical: if error is null, the error is not displayed
-                    ),
-                  );
-                },
+                  title: RxTextField(
+                subscribe: manager.subject$,
+                dispatch: manager.setSubject,
+                decoration: InputDecoration(
+                  labelText: 'SUBJECT',
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                ),
               )),
               Divider(),
               ListTile(
-                title: TextField(
-                  onChanged: manager.inBody.add,
+                title: RxTextField(
+                  dispatch: manager.setBody,
                   decoration: InputDecoration(
                       labelText: 'BODY',
                       labelStyle: TextStyle(fontWeight: FontWeight.bold)),
