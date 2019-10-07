@@ -1,8 +1,8 @@
 import 'package:emailapp/Message.dart';
 import 'package:emailapp/Provider.dart';
-import 'package:emailapp/RxTextField.dart';
 import 'package:emailapp/manager/MessageFormManager.dart';
 import 'package:flutter/material.dart';
+import 'package:rxform/rxform.dart';
 
 class MessageCompose extends StatelessWidget {
 
